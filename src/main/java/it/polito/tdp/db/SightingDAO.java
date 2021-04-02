@@ -13,13 +13,12 @@ public class SightingDAO {
 		
 		try {
 			Connection conn = DBconnect.getConnection();
-		 
-		
+			
 			//QUERY SENZA PARAMETRI
 			String sql="SELECT DISTINCT shape " //mi devo ricordare gli spazi alla fine! E' come se fosse scritta tutta su una riga!!
-				+ "FROM sighting "
-				+ "WHERE shape<>'' "
-				+ "ORDER BY shape ASC " ;
+					 + "FROM sighting "
+					 + "WHERE shape<>'' "
+					 + "ORDER BY shape ASC " ;
 		
 			PreparedStatement st=conn.prepareStatement(sql);
 		
@@ -29,7 +28,7 @@ public class SightingDAO {
 			while(res.next()) {
 				String forma=res.getString("shape"); //nome della colonna: c'e' anche nella query
 				formeUFO.add(forma);
-		}
+			}
 			st.close();//per liberare la memoria, dipende da quanti statement ho.. posso anche non metterla
 			conn.close();
 			return formeUFO;
@@ -40,14 +39,16 @@ public class SightingDAO {
 		}
 		
 	}
+	
 	public int countByShape(String shape) {
 		
 		try {
 			Connection conn = DBconnect.getConnection();
+			
 			//QUERY CON PARAMETRI
 			String sql2="SELECT COUNT(*) AS cnt "
-					+ "FROM sighting "
-					+ "WHERE shape= ? "; //? dove ci sono i parametri
+					  + "FROM sighting "
+					  + "WHERE shape= ? "; //? dove ci sono i parametri
 			
 			
 			PreparedStatement st2=conn.prepareStatement(sql2);
@@ -56,11 +57,12 @@ public class SightingDAO {
 			ResultSet res2=st2.executeQuery();
 			
 			res2.first();//o next
-			int count=res2.getInt("cnt");//metto un nome significativo
+			int count=res2.getInt("cnt");//metto un nome significativo al count della query
 			st2.close();
 			conn.close();
 			
 			return count;
+			
 		}catch(SQLException e){
 			throw new RuntimeException("Datebase error in countByShape", e);
 		}
